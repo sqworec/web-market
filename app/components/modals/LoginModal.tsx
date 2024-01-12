@@ -15,9 +15,16 @@ import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
 import toast from "react-hot-toast";
 import Button from "@/app/components/Button";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import {signIn} from "next-auth/react";
+import {fastRefreshReducer} from "next/dist/client/components/router-reducer/reducers/fast-refresh-reducer";
+import {router} from "next/client";
+import {useRouter} from "next/navigation";
 
-const RegisterModal = () => {
+const LoginModal = () => {
+    const router = useRouter()
     const registerModal = useRegisterModal()
+    const loginModal = useLoginModal()
     const [isLoading, setIsLoading] = useState(false)
 
     const {
@@ -28,7 +35,6 @@ const RegisterModal = () => {
         }
     } = useForm<FieldValues>({
         defaultValues: {
-            name: '',
             email: '',
             password: ''
         }
@@ -37,36 +43,35 @@ const RegisterModal = () => {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true)
 
-        axios.post('/api/register', data)
-            .then(() => {
-                registerModal.onClose()
-            })
-            .catch((error) => {
-                toast.error("Что-то пошло не так")
-            })
-            .finally(() => {
+        signIn('credentials', {
+            ...data,
+            redirect: false,
+        })
+            .then((callback) => {
                 setIsLoading(false)
+
+                if (callback?.ok) {
+                    toast.success('Вход осуществлен успешно')
+                    router.refresh()
+                    loginModal.onClose()
+                }
+
+                if (callback?.error) {
+                    toast.error(callback.error)
+                }
             })
     }
 
     const bodyContent = (
         <div className="flex flex-col gap-4">
             <Heading
-                title="Добро пожаловать в Минскхлебпром"
-                subtitle="Создайте аккаунт"
+                title="С возвращением!"
+                subtitle="Войдите в аккаунт"
                 center
             />
             <Input
                 id="email"
                 label="Email"
-                disabled={isLoading}
-                register={register}
-                errors={errors}
-                required
-            />
-            <Input
-                id="fullName"
-                label="ФИО"
                 disabled={isLoading}
                 register={register}
                 errors={errors}
@@ -126,10 +131,10 @@ const RegisterModal = () => {
     return (
         <Modal
             disabled={isLoading}
-            isOpen={registerModal.isOpen}
-            title="Регистрация"
+            isOpen={loginModal.isOpen}
+            title="Авторизация"
             actionLabel="Продолжить"
-            onClose={registerModal.onClose}
+            onClose={loginModal.onClose}
             onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
             //footer={footerContent}
@@ -137,4 +142,4 @@ const RegisterModal = () => {
     )
 }
 
-export default RegisterModal
+export default LoginModal

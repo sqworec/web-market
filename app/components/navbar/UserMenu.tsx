@@ -1,13 +1,25 @@
 'use client'
 
-import {AiOutlineMenu} from "react-icons/ai";
+import {AiOutlineMenu, AiOutlineShoppingCart} from "react-icons/ai";
 import Avatar from "@/app/components/Avatar";
-import {useCallback, useState} from "react";
+import React, {useCallback, useState} from "react";
 import MenuItem from "@/app/components/navbar/MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import {FaShoppingCart} from "react-icons/fa";
+import {BiCart} from "react-icons/bi";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import {User} from "@prisma/client";
+import {signOut} from "next-auth/react";
 
-const UserMenu = () => {
+interface UserMenuProps {
+    currentUser?: User | null
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({
+                                               currentUser
+                                           }) => {
     const registerModal = useRegisterModal()
+    const loginModal = useLoginModal()
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleOpen = useCallback(() => {
@@ -18,7 +30,8 @@ const UserMenu = () => {
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
                 <div
-                    onClick={() => {}}
+                    onClick={() => {
+                    }}
                     className="
                         hidden
                         md:block
@@ -32,7 +45,9 @@ const UserMenu = () => {
                         cursor-pointer
                     "
                 >
-                    Home
+                    <BiCart
+                        size={22}
+                    />
                 </div>
                 <div
                     onClick={toggleOpen}
@@ -52,9 +67,9 @@ const UserMenu = () => {
                         transition
                     "
                 >
-                <AiOutlineMenu />
+                    <AiOutlineMenu/>
                     <div className="hidden md:block">
-                        <Avatar />
+                        <Avatar/>
                     </div>
                 </div>
             </div>
@@ -65,8 +80,8 @@ const UserMenu = () => {
                         absolute
                         rounded-xl
                         shadow-md
-                        w-[40vw]
-                        md:w-3/4
+                        w-[30vw]
+                        md:w-[90%]
                         bg-white
                         overflow-hidden
                         right-0
@@ -75,16 +90,30 @@ const UserMenu = () => {
                     "
                 >
                     <div className="flex flex-col cursor-pointer">
-                        <>
-                            <MenuItem
-                                onClick={() => {}}
-                                label={"Авторизация"}
-                            />
-                            <MenuItem
-                                onClick={registerModal.onOpen}
-                                label={"Регистрация"}
-                            />
-                        </>
+                        {currentUser ? (
+                            <>
+                                <MenuItem
+                                    onClick={() => {}}
+                                    label={"Корзина"}
+                                />
+                                <hr/>
+                                <MenuItem
+                                    onClick={() => signOut()}
+                                    label={"Выйти"}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <MenuItem
+                                    onClick={loginModal.onOpen}
+                                    label={"Авторизация"}
+                                />
+                                <MenuItem
+                                    onClick={registerModal.onOpen}
+                                    label={"Регистрация"}
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
             )}

@@ -32,7 +32,7 @@ const Button: React.FC<ButtonProps> = ({
                 transition
                 w-full
                 ${outline ? 'bg-white' : 'bg-black'}
-                ${outline ? 'border-black' : 'border-white'}
+                ${outline ? 'border-black' : 'border-black'}
                 ${outline ? 'text-black' : 'text-white'}
                 ${small ? 'py-1' : 'py-3'}
                 ${small ? 'text-sm' : 'text-md'}
@@ -43,11 +43,11 @@ const Button: React.FC<ButtonProps> = ({
             {Icon && (
                 <Icon
                     size={24}
-                    // className="
-                    //     absolute
-                    //     left-4
-                    //     top-3
-                    // "
+                    className="
+                        absolute
+                        left-4
+                        top-3
+                    "
                 />
             )}
             {label}
