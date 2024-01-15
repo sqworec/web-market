@@ -62,6 +62,11 @@ const LoginModal = () => {
             })
     }
 
+    const toggle = useCallback(() => {
+        loginModal.onClose()
+        registerModal.onOpen()
+    },[loginModal, registerModal])
+
     const bodyContent = (
         <div className="flex flex-col gap-4">
             <Heading
@@ -92,18 +97,18 @@ const LoginModal = () => {
     const footerContent = (
         <div className="flex flex-col gap-4 mt-3">
             <hr/>
-            <Button
-                outline
-                label="Продолжить с Google"
-                icon={FcGoogle}
-                onClick={() => {}}
-            />
-            <Button
-                outline
-                label="Продолжить с Github"
-                icon={AiFillGithub}
-                onClick={() => {}}
-            />
+            {/*<Button*/}
+            {/*    outline*/}
+            {/*    label="Продолжить с Google"*/}
+            {/*    icon={FcGoogle}*/}
+            {/*    onClick={() => {}}*/}
+            {/*/>*/}
+            {/*<Button*/}
+            {/*    outline*/}
+            {/*    label="Продолжить с Github"*/}
+            {/*    icon={AiFillGithub}*/}
+            {/*    onClick={() => {}}*/}
+            {/*/>*/}
             <div
                 className="
                     text-neutral-500
@@ -112,15 +117,15 @@ const LoginModal = () => {
                     font-light
                 "
             >
-                <p>Есть аккаунт?
+                <p>Впервые у нас?
                     <span
-                        onClick={registerModal.onClose}
+                        onClick={toggle}
                         className="
                             text-neutral-800
                             cursor-pointer
                             hover:underline
                         "
-                    > Авторизация
+                    > Создать аккаунт
                     </span>
                 </p>
             </div>
@@ -137,7 +142,7 @@ const LoginModal = () => {
             onClose={loginModal.onClose}
             onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
-            //footer={footerContent}
+            footer={footerContent}
         />
     )
 }

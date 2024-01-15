@@ -10,6 +10,8 @@ import {BiCart} from "react-icons/bi";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import {User} from "@prisma/client";
 import {signOut} from "next-auth/react";
+import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
+import useProductModal from "@/app/hooks/ProductModal";
 
 interface UserMenuProps {
     currentUser?: User | null
@@ -20,11 +22,18 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                            }) => {
     const registerModal = useRegisterModal()
     const loginModal = useLoginModal()
+    const productModal = useProductModal()
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value)
     }, [])
+
+    const addItem = useCallback(() => {
+        productModal.onOpen()
+
+
+    }, [productModal])
 
     return (
         <div className="relative">
@@ -92,8 +101,15 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     <div className="flex flex-col cursor-pointer">
                         {currentUser ? (
                             <>
+                                {currentUser.role === "ADMIN" && (
+                                    <MenuItem
+                                        onClick={addItem}
+                                        label={"Добавить позицию"}
+                                    />
+                                )}
                                 <MenuItem
-                                    onClick={() => {}}
+                                    onClick={() => {
+                                    }}
                                     label={"Корзина"}
                                 />
                                 <hr/>

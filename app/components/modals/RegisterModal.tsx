@@ -15,10 +15,13 @@ import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
 import toast from "react-hot-toast";
 import Button from "@/app/components/Button";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal()
+    const loginModal = useLoginModal()
     const [isLoading, setIsLoading] = useState(false)
+    const [isPasswordShowed, setIsPasswordShowed] = useState(false)
 
     const {
         register,
@@ -48,6 +51,12 @@ const RegisterModal = () => {
                 setIsLoading(false)
             })
     }
+
+    const toggle = useCallback(() => {
+        registerModal.onClose()
+        loginModal.onOpen()
+    },[loginModal, registerModal])
+
 
     const bodyContent = (
         <div className="flex flex-col gap-4">
@@ -87,18 +96,18 @@ const RegisterModal = () => {
     const footerContent = (
         <div className="flex flex-col gap-4 mt-3">
             <hr/>
-            <Button
-                outline
-                label="Продолжить с Google"
-                icon={FcGoogle}
-                onClick={() => {}}
-            />
-            <Button
-                outline
-                label="Продолжить с Github"
-                icon={AiFillGithub}
-                onClick={() => {}}
-            />
+            {/*<Button*/}
+            {/*    outline*/}
+            {/*    label="Продолжить с Google"*/}
+            {/*    icon={FcGoogle}*/}
+            {/*    onClick={() => {}}*/}
+            {/*/>*/}
+            {/*<Button*/}
+            {/*    outline*/}
+            {/*    label="Продолжить с Github"*/}
+            {/*    icon={AiFillGithub}*/}
+            {/*    onClick={() => {}}*/}
+            {/*/>*/}
             <div
                 className="
                     text-neutral-500
@@ -109,7 +118,7 @@ const RegisterModal = () => {
             >
                 <p>Есть аккаунт?
                     <span
-                        onClick={registerModal.onClose}
+                        onClick={toggle}
                         className="
                             text-neutral-800
                             cursor-pointer
@@ -132,7 +141,7 @@ const RegisterModal = () => {
             onClose={registerModal.onClose}
             onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
-            //footer={footerContent}
+            footer={footerContent}
         />
     )
 }
