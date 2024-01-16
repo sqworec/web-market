@@ -11,7 +11,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import {User} from "@prisma/client";
 import {signOut} from "next-auth/react";
 import {useOnClickOutside} from "next/dist/client/components/react-dev-overlay/internal/hooks/use-on-click-outside";
-import useProductModal from "@/app/hooks/ProductModal";
+import useProductModal from "@/app/hooks/useProductModal";
 
 interface UserMenuProps {
     currentUser?: User | null

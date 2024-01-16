@@ -1,8 +1,10 @@
 'use client'
 
 import {BiSearch} from "react-icons/bi";
+import {useRouter} from "next/navigation";
 
 const Search = () => {
+    const router = useRouter()
     return (
         <div
             className="
@@ -28,6 +30,7 @@ const Search = () => {
             >
 
                 <div
+                    onClick={() => router.push('/')}
                     className="
                         text-sm
                         font-semibold
@@ -51,20 +54,20 @@ const Search = () => {
                 >
                     О нас
                 </div>
-                <div
-                    className="
-                        hidden
-                        sm:block
-                        text-sm
-                        font-semibold
-                        px-6
-                        border-x-[1px]
-                        flex-1
-                        text-center
-                    "
-                >
-                    Отзывы
-                </div>
+                {/*<div*/}
+                {/*    className="*/}
+                {/*        hidden*/}
+                {/*        sm:block*/}
+                {/*        text-sm*/}
+                {/*        font-semibold*/}
+                {/*        px-6*/}
+                {/*        border-x-[1px]*/}
+                {/*        flex-1*/}
+                {/*        text-center*/}
+                {/*    "*/}
+                {/*>*/}
+                {/*    Отзывы*/}
+                {/*</div>*/}
                 <div
                     className="
                         text-sm
@@ -77,7 +80,7 @@ const Search = () => {
                         gap-3
                     "
                 >
-                    <div className="hidden sm:block">Корзина</div>
+                    {/*<div className="hidden sm:block">Корзина</div>*/}
                     <div
                         className="
                             p-2

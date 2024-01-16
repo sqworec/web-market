@@ -8,7 +8,7 @@ import CategoryInput from "@/app/components/inputs/CategoryInput";
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import { UploadDropzone} from "@/utils/uploadthing";
 import toast from "react-hot-toast";
-import useProductModal from "@/app/hooks/ProductModal";
+import useProductModal from "@/app/hooks/useProductModal";
 import Image from "next/image";
 import Input from "@/app/components/inputs/Input";
 import axios from "axios";
@@ -16,8 +16,8 @@ import {useRouter} from "next/navigation";
 
 enum STEPS {
     CATEGORY = 0,
-    WEIGHT = 1,
-    DESCRIPTION = 2,
+    DESCRIPTION = 1,
+    WEIGHT = 2,
     IMAGES = 3,
     PRICE = 4,
 }
@@ -191,7 +191,7 @@ const ProductModal = () => {
         bodyContent = (
             <div className="flex flex-col gap-8">
                 <Heading
-                    title="Добавьте фотографи к продукту"
+                    title="Добавьте фотографию к продукту"
                     subtitle="Дайте покупателю знать как выглядит ваш продукт!"
                 />
 
@@ -205,8 +205,12 @@ const ProductModal = () => {
                             container: {
                                 border: '1px dashed black',
                                 padding: '10% 0',
-                                backgroundColor: 'rgb(220 220 220)'
                             },
+                            button: {
+                                color: 'black',
+                                border: '1px solid gray',
+                                padding: '0 10%',
+                            }
                         }}
                         endpoint='imageUploader'
                         onClientUploadComplete={(res) => {
